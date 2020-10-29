@@ -1,0 +1,634 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Siman&#x27;s Universe</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b797e935-4551-4688-8d2b-6bcb3b2541a1" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/woodcuts_1.jpg" style="object-position:center 90%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🌞</span></div><h1 class="page-title">Siman&#x27;s Universe</h1><table class="properties"><tbody><tr class="property-row property-row-last_edited_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z"></path></svg></span>Last Edited Time</th><td><time>@Oct 28, 2020 7:59 PM</time></td></tr></tbody></table></header><div class="page-body"><p id="6dcdc5c0-3812-46c6-9cf8-09742e4d7d27" class="">
+</p><p id="a5981149-ec7e-4e2a-a847-14aaec64f7d8" class="">Hi there, I am Siman 👻</p><p id="cb91008f-8552-459a-8df3-6ca297de3f53" class="">I&#x27;m currently learning everything 🤣 </p><p id="81cff859-a73f-4b2f-9695-18f80edc7d48" class="">This dashboard tracks my tech life: knowledges, skills, experiences, and thoughts 🐳</p><p id="5bba5dc2-2e68-4819-a30b-e6d835958132" class="">
+</p><nav id="b7b9eaa6-c224-47a8-8b21-036be18abc15" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0b04bcbb-ea03-461e-9398-f3e50ddd0e61">Medium stories</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7ec7e20b-77c2-46ee-a47e-145f68039375">Regret not reading these when I was a freshman</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f10c11d1-aa5a-4385-b2cc-6d739aee8829">Women in Tech</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#2b761c02-f8b3-4755-ae6a-07745d8775fd">Frontend Growth</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f123194d-4c18-4ccd-8cd3-fb3c70508e97">Backend Growth</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7c6af481-84d4-4f47-8a51-a2ad64ddeae0">Others</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#73d750a1-6dec-4651-a7df-435d3b7616f7">Playing with IDE</a></div></nav><p id="006b61be-c47d-4b4a-8e6a-3fd5a7351f3b" class="">
+</p><h1 id="0b04bcbb-ea03-461e-9398-f3e50ddd0e61" class="">Medium stories</h1><figure id="26685f4c-fd95-4cca-bf3d-b94b8286c479"><a href="https://medium.com/@simanw" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Siman - Medium</div><div class="bookmark-description">Read writing from Siman on Medium. Every day, Siman and thousands of other voices read, write, and share important stories on Medium.</div></div><div class="bookmark-href"><img src="https://medium.com/favicon.ico" class="icon bookmark-icon"/>https://medium.com/@simanw</div></div><img src="https://miro.medium.com/max/2400/1*bXP8dVBzf16tj7gQs7NK_w.jpeg" class="bookmark-image"/></a></figure><h1 id="7ec7e20b-77c2-46ee-a47e-145f68039375" class="">Regret not reading these when I was a freshman</h1><figure id="1d14481d-4f6c-4eb2-8f54-1d01fea900ac"><a href="https://github.com/nushackers/notes-to-cs-freshmen-from-the-future" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">nushackers/notes-to-cs-freshmen-from-the-future</div><div class="bookmark-description">Ported over from the original document. The mailing list announcement that started it all (23 August 2012): Link to thread Early into the AY12/13 academic year, Prof Tay Yong Chiang organized a supper for Computer Science freshmen at Tembusu College. The bunch of seniors who were gathered there put together a document for NUS computing freshmen.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/nushackers/notes-to-cs-freshmen-from-the-future</div></div><img src="https://avatars0.githubusercontent.com/u/388309?s=400&amp;v=4" class="bookmark-image"/></a></figure><p id="acb86017-f3a8-4e1c-9cfa-4d5dcbfc2a7f" class="">
+</p><h1 id="f10c11d1-aa5a-4385-b2cc-6d739aee8829" class="">Women in Tech</h1><p id="4a5b44c6-883b-4194-adc5-249ec6f58e7b" class="">I am following...</p><p id="54a9846e-ab43-4da4-afbc-f55ab4396093" class=""><a href="http://codewithzhangyi.com">Zhangyi</a></p><p id="9bf3be25-aa56-4c48-b6a0-a8ab9c66d21d" class=""><a href="https://www.douban.com/group/womenintech/">Women in Tech CN</a> (豆瓣小组)</p><hr id="a808cf54-56cf-4642-8736-577cfb0193ff"/><h1 id="2b761c02-f8b3-4755-ae6a-07745d8775fd" class="">Frontend Growth</h1><p id="550349c7-7f3c-40fa-bb84-85b9c4fb1a88" class="">This section is a navigation to what a senior frontend developer should understand well. Also, provide some resource links (All are chiness resouces so far, English versions coming soon)</p><ul id="d2473a7e-183f-48a4-ac4d-73597afd5f2e" class="toggle"><li><details open=""><summary>Javascript</summary></details></li></ul><ul id="0b0a2250-45b9-4a02-b22b-2a06dfcecf53" class="toggle"><li><details open=""><summary>HTML &amp; CSS</summary></details></li></ul><ul id="8f2c8507-9bd5-4e72-a719-3003f00bb90d" class="toggle"><li><details open=""><summary>Data structures &amp; algorithms</summary></details></li></ul><ul id="5a1cad04-45ff-4ec7-ab54-11833ac10c7a" class="toggle"><li><details open=""><summary>Runtime</summary><p id="d7ee2132-160b-4a18-8973-2bfca42874f4" class="">We have to distinguish between programming languages and runtime</p><pre id="d2734442-a6e3-483f-bf14-c96b1a634b5b" class="code"><code>1、ECMAScript descripe Javascript&#x27;s syntax and basic object regulations
+2、Browsers provides js with DOM (methods and interfaces that handle web page contents), BOM (methods and interfaces that interact with the browser)
+3、Node, Javascript runtime, provides js with APIs that deal with network and I/O</code></pre><ol id="0ae59183-ae33-432c-b640-d34d76ff9efe" class="numbered-list" start="1"><li><mark class="highlight-orange">Browser APIs</mark><ol id="8a3ecf81-8368-4e4b-a72d-b83e538599e1" class="numbered-list" start="1"><li>DOM APIs that a browser provides, differences and compatibilities among browsers</li></ol><ol id="625eadee-8818-4dc3-ba71-f373a6cff676" class="numbered-list" start="2"><li>BOM APIs that a browser provides, differences and compatibilities among browsers</li></ol><ol id="6e0b8483-c4b3-44e7-8873-0d2ed3c94103" class="numbered-list" start="3"><li>Performance optimization for tons of DOM operations (e.g. merge, Diff, requestAnimationFrame)</li></ol><ol id="e17be2bf-2f39-4d30-8217-0d097bf3ca34" class="numbered-list" start="4"><li>Performance optimization for massive data storage and operations</li></ol><ol id="9a2aabc2-0231-4d1d-a4a7-de8355c8d6e5" class="numbered-list" start="5"><li>DOM event flow&#x27;s implementation, event proxy</li></ol><ol id="80731f29-118f-4a90-9a6d-6bcfdc39f9cb" class="numbered-list" start="6"><li>Multiple ways that the frontend sends requests and their low-level implementations; able to write native ajax, fetch; able to use third-parity libraries</li></ol><ol id="164be19e-93a4-4018-bbfa-9b49b4ad240b" class="numbered-list" start="7"><li>Understand CORS, how to avoid CORS, differences among CORS strategies and how to select one from them</li></ol><ol id="743ad5a6-269d-4d10-9526-0d806115e0b4" class="numbered-list" start="8"><li>Browsers storage mechanisms, their pros and cons, how to select the proper one</li></ol><ol id="51df7b2f-0ac3-4b91-9cf0-a9d3a9a5e9c4" class="numbered-list" start="9"><li>Browsers cross-tag communication </li></ol></li></ol><ol id="22e894b3-eca0-4fdb-b8d2-c0c92564b7a8" class="numbered-list" start="2"><li><mark class="highlight-orange">Principle of browsers</mark><ol id="b0e38bc5-8ae9-419f-b9d4-91a6f75ff9da" class="numbered-list" start="1"><li>Mainstream browsers&#x27;s Javascript engines, their differences, how to identify a specific engine by the codes</li></ol><ol id="b4f9ce53-1726-4704-b93f-e50099b0e56a" class="numbered-list" start="2"><li>how many interactions happen between the browser sends a request and and ends a request</li></ol><ol id="a1020ece-0611-4956-b91e-36ff5628849b" class="numbered-list" start="3"><li>Able to describe the whole process that starts from entering the URL to displaying a web page</li></ol><ol id="464129f8-979c-436a-b6d5-8b4ed1c3d0d8" class="numbered-list" start="4"><li>The mechanism of a browser parses HTML source codes and builds a DOM tree</li></ol><ol id="76baac1f-3359-4620-9271-21d916f7fddf" class="numbered-list" start="5"><li>The mechanism of a browser parses CSS and attach them to a DOM tree</li></ol><ol id="5daa6c3f-3987-427d-b567-129fdb239432" class="numbered-list" start="6"><li>How the browser draws a DOM tree with CSS styles</li></ol><ol id="615f9622-748a-4378-ad2a-e022387b7ac8" class="numbered-list" start="7"><li>How the browser redraws the DOM tree, the causes, and how to avoid this happenning</li></ol><ol id="149f5f68-1f6e-49a9-9cbc-e75dd727a012" class="numbered-list" start="8"><li>Browsers&#x27; garbage collection mechanism, how to avoid memory leakage</li></ol><ol id="9c9f2880-88d2-4162-8e7d-310fb086d4e1" class="numbered-list" start="9"><li>Browsers&#x27; cache mechanisms, how to select and control a proper cache solutions</li></ol></li></ol><ol id="9656702c-60d4-44bf-8a6f-02d81855937e" class="numbered-list" start="3"><li><mark class="highlight-orange">Node</mark><ol id="122a82e1-c0a3-4161-a80d-aeef233d61ef" class="numbered-list" start="1"><li>Understand the role of Node in applications, able to use Node to create frontend runtime and operates on files and databases</li></ol><ol id="97c51cf0-0888-4a66-9701-1f49d4700281" class="numbered-list" start="2"><li>Master one of Node frameworks and their differences (e.g. Express, Koa)</li></ol><ol id="afe151cb-e737-46f3-8814-21c64976b552" class="numbered-list" start="3"><li>Be comfortable with Node APIs (e.g. Path, Http, Child Process), and understand their implementations</li></ol><ol id="f64774c6-3221-43bc-b88b-c96c717c1fbf" class="numbered-list" start="4"><li>Understand Node low-level mechanimsm, differences between Node and browsers</li></ol><ol id="b1280c21-f329-4d08-9ce2-6f9875703d61" class="numbered-list" start="5"><li>Understand Node event-driven and non-blocking mechanisms</li></ol></li></ol><h2 id="efd9507b-d8f0-4493-a7a7-1da0f34bccc3" class="">Learning resources (Chinese documents)</h2><p id="26f1d177-d1fc-46bf-b4b9-10a08ff39d58" class=""><a href="https://github.com/Mmzer/how-browser-work">How browsers work</a></p><p id="89827971-43c6-427a-995f-a8cd7f2e2039" class=""><a href="https://zhuanlan.zhihu.com/p/47407398">图解浏览器的基本工作原理</a></p><p id="4d488c5e-3765-4039-9ba8-acc4d0b15674" class=""><a href="http://nqdeng.github.io/7-days-nodejs/">7 days node.js</a></p><p id="2daccafb-efa6-4022-a152-3eefa06c6e38" class=""><a href="https://efe.baidu.com/blog/nodejs-module-analyze/">Node.js模块加载与运行原理</a></p></details></li></ul><ul id="aa448307-6d88-4895-ba31-1653fd9d7b56" class="toggle"><li><details open=""><summary>Framkework</summary></details></li></ul><ul id="ae373b63-50de-46c3-80eb-8a8d1827afa8" class="toggle"><li><details open=""><summary>Frontend Engineering</summary></details></li></ul><ul id="7adfcc87-5236-4188-bebe-beb1360acc87" class="toggle"><li><details open=""><summary>Business Logic</summary></details></li></ul><hr id="c8383538-6a64-46f5-8f7c-1827fae1a551"/><h1 id="f123194d-4c18-4ccd-8cd3-fb3c70508e97" class="">Backend Growth</h1><figure id="ecff6470-05ae-4b87-9deb-c005459770d7" class="link-to-page"><a href="Siman&#x27;s%20Universe%20b797e935455146888d2b6bcb3b2541a1/Restful%20API%20ecff647005ae4b879debc005459770d7.html"><span class="icon">⚗️</span>Restful API</a></figure><hr id="923c7401-7a89-4bf2-a3f2-dd2b3fb041f9"/><h1 id="7c6af481-84d4-4f47-8a51-a2ad64ddeae0" class="">Others</h1><p id="d3abce3d-06a8-4e33-a736-38269324841f" class="">This section summarizes essential compoments in software engineering pipelines</p><figure id="2f6c0cc3-f6d6-4518-9125-6008856789bb" class="link-to-page"><a href="Siman&#x27;s%20Universe%20b797e935455146888d2b6bcb3b2541a1/CI%20CD%202f6c0cc3f6d6451891256008856789bb.html"><span class="icon">💎</span>CI/CD</a></figure><figure id="65446c0d-4381-476f-b68d-b36fb197b075" class="link-to-page"><a href="Siman&#x27;s%20Universe%20b797e935455146888d2b6bcb3b2541a1/Docker%2065446c0d4381476fb68db36fb197b075.html"><span class="icon">🐳</span>Docker</a></figure><hr id="726da8cd-2555-4cc3-bf59-5545255467d9"/><h1 id="73d750a1-6dec-4651-a7df-435d3b7616f7" class="">Playing with IDE</h1><p id="5606d950-ac5e-43f8-a959-d983c8cdc4c1" class="">
+</p><figure id="47e9d8e1-33ed-4b2e-ab06-ce1030baac90" class="link-to-page"><a href="Siman&#x27;s%20Universe%20b797e935455146888d2b6bcb3b2541a1/VS%20Code%20master%2047e9d8e133ed4b2eab06ce1030baac90.html"><span class="icon">🧿</span>VS Code master</a></figure></div></article></body></html>
