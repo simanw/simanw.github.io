@@ -1,0 +1,666 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Docker</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="65446c0d-4381-476f-b68d-b36fb197b075" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nasa_robert_stewart_spacewalk.jpg" style="object-position:center 40%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🐳</span></div><h1 class="page-title">Docker</h1></header><div class="page-body"><p id="d0df11c5-6bae-42ea-9d7a-50435a638212" class="">
+</p><figure id="453d2eec-e945-4da5-b9f0-f6d2683246db" class="link-to-page"><a href="Docker%2065446c0d4381476fb68db36fb197b075/Docker%20mechanimsm%20453d2eece9454da5b9f0f6d2683246db.html"><span class="icon">🥶</span>Docker mechanimsm</a></figure><p id="ef6f50de-b772-4dbb-988c-fb5ab360aafa" class="">
+</p><ul id="37e452e7-65f0-43f3-8375-154d14222116" class="toggle"><li><details open=""><summary>Dockerfile</summary><p id="723c7579-9533-4a19-9813-2ecff139d85e" class="">A dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. </p><pre id="2907e5dc-f834-448e-92fe-be878eed6a1c" class="code code-wrap"><code>docker build</code></pre><p id="19cc99af-c069-4a7a-b128-711aff1bb221" class="">This command builds an image from a dockerfile and a <mark class="highlight-yellow">context</mark>.</p><p id="716e50d2-87cd-444f-b130-a4d57e022d51" class="">The build is run by the Docker daemon. Daemon can detect syntax errors in dockerfile. The Docker daemon runs the instructions in the Dockerfile one-by-one</p><p id="1a7a3e96-7bb2-468f-8d61-65ae938465bf" class=""><mark class="highlight-yellow">The build&#x27;s context is the set of files at a specified location PATH or URL</mark>.</p><p id="abac5103-cc8b-455c-bfd9-32aa890c486a" class="">PATH is a directory on local filesystem. URL is a Git repository location.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="5d924b8b-e8c7-4f3b-9920-57f2a6347905"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">It&#x27;s best to start with an empty directroy as context and keep Dockerfile in that directory.</div></figure><p id="e2527ca1-bc25-4a4d-a17c-0f50d097cff7" class="">
+</p><p id="00fca20e-a66f-486e-893e-dff3f5c322ae" class="">To increase the build’s performance, exclude files and directories by adding a <mark class="highlight-yellow">.dockerignore</mark> file to the context directory.</p><ul id="aed5ac71-a243-4823-b4e2-26224e1016ce" class="toggle"><li><details open=""><summary>.dockerignore</summary><p id="51f43703-75f7-4cc6-9174-aa07a976244b" class="">Before the docker CLI sends the context to the docker daemon, it looks for the .dockerignore file in the root directory of the context.</p><p id="08cd8a5b-89e4-4c11-9f0b-06683ce0182f" class="">This helps to avoid unnecessarily sending large or sensitive files and directories to the daemon and potentially adding them to images using ADD or COPY.</p><ul id="b703782d-7a00-49d2-b096-27d936149db3" class="bulleted-list"><li>根据Go&#x27;s filepath.Match的匹配规则进行字符串模式匹配</li></ul><p id="8839aa78-e531-43e7-9146-5c872c3949fd" class="">
+</p></details></li></ul><p id="b17fa7f9-7966-455f-b018-4ff3474fae8c" class="">
+</p><ul id="e6b653a9-7492-4357-ada8-d53f570ca778" class="toggle"><li><details open=""><summary>FROM </summary><p id="b4202232-8aee-4b76-9192-5ec68841df27" class="">The FROM instruction initializes a new build stage and sets the Base Image for subsequent instructions.</p><p id="5d20b943-ab2d-4b12-9ec8-519db2ccf996" class=""><code>FROM [--platform=&lt;platform&gt;] &lt;image&gt; [AS &lt;name&gt;]</code></p><p id="e3dced08-1825-4d42-ae32-e35bc2d59e0c" class="">Or</p><p id="2317e2c0-289f-41d4-adb1-66db00f59550" class=""><code>FROM [--platform=&lt;platform&gt;] &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]</code></p><p id="62d0e1f5-7d86-4d62-83e2-fd03b142190f" class="">Or</p><p id="c76b0a89-3ffd-4a66-845b-1f116c2eb6ed" class=""><code>FROM [--platform=&lt;platform&gt;] &lt;image&gt;[@&lt;digest&gt;] [AS &lt;name&gt;]</code></p></details></li></ul><p id="ae9d02d0-ac9c-4475-8988-e3b287c4e775" class="">
+</p><ul id="71727879-ad39-4924-819f-220d227b68d5" class="toggle"><li><details open=""><summary>RUN </summary><p id="e63d3b64-9b75-427a-ad5b-390331c02527" class="">RUN has 2 forms:</p><ul id="b98a0c61-eb57-43b5-8044-bc7c14aa99e0" class="bulleted-list"><li><code>RUN &lt;command&gt;</code> (<em>shell</em> form, the command is run in a shell, which by default is <code>/bin/sh -c</code> on Linux or <code>cmd /S /C</code> on Windows)</li></ul><ul id="5c6f3a9e-d15d-423f-86d5-c3ad624b74ec" class="bulleted-list"><li><code>RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code> (<em>exec</em> form)</li></ul><p id="24d619da-7562-4a62-83cb-76db8809ed1b" class="">
+</p><p id="07289dcc-8fb8-433c-9cdc-96c6e5fe5b5f" class="">In the shell form:<div class="indented"><p id="e49e8dc4-0dc5-4933-9aa1-dea31c93c10a" class="">can use a \ backslash to continue a single RUN instruction onto a new line. 用\，命令可以分行</p></div></p><p id="b0ff6244-69d1-4c08-ad95-e4235c914589" class="">In the exec form:<div class="indented"><p id="8723359f-9e8c-4fe5-acde-cdd151ce41e9" class="">is parsed as a JSON array, which means you must use double-quotes (&quot;) around words.</p></div></p></details></li></ul><p id="6f4e79dc-5ee3-4b1b-97ab-d5c2ca2243f1" class="">
+</p><ul id="9f0b7d04-4174-43ae-b89b-ed4a84d2d755" class="toggle"><li><details open=""><summary>CMD</summary><p id="b858d208-7ac6-4b67-a4b1-ecc0f348a840" class="">There can only be one CMD instruction in a Dockerfile. If more than one CMD is listed, only the last CMD will take effect.</p><p id="df399be9-8f60-4702-b47d-766f7b63b187" class="">
+</p><p id="dc66bf3e-039b-45c1-8723-e5b3367f682a" class="">The <code>CMD</code> instruction has three forms:</p><ul id="f91a3fda-5ea4-4da3-a74f-5b53b6f6dec4" class="bulleted-list"><li><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code> (<em>exec</em> form, this is the preferred form)</li></ul><ul id="3e37a545-1a7f-45fd-adbf-63280e6eb035" class="bulleted-list"><li><code>CMD [&quot;param1&quot;,&quot;param2&quot;]</code> (as <em>default parameters to ENTRYPOINT</em>)</li></ul><ul id="74fea607-5f2d-4fed-9117-c82b7d5d85ef" class="bulleted-list"><li><code>CMD command param1 param2</code> (<em>shell</em> form)</li></ul><p id="de59e243-2e80-493f-bcfd-ff5fb346e037" class=""><strong>The main purpose of a </strong><code><strong>CMD</strong></code><strong> is to provide defaults for an executing container.</strong> These defaults can include an executable, or they can omit the executable, in which case you must specify an <code>ENTRYPOINT</code> instruction as well.</p></details></li></ul><p id="25621a0a-98c6-4692-af2d-bf0910c8738f" class="">
+</p><ul id="0c8156eb-d56f-4941-864b-67306737c415" class="toggle"><li><details open=""><summary>EXPOSE</summary><p id="99835f7a-2667-4019-80a1-31554c1a06cf" class=""><code>EXPOSE &lt;port&gt; [&lt;port&gt;/&lt;protocol&gt;...]</code></p><p id="ed57f683-0ba2-428f-a3cf-f090f3bc66e0" class="">The <code>EXPOSE</code> instruction informs Docker that the container listens on the specified network ports at runtime. You can specify whether the port listens on TCP or UDP, and the default is TCP if the protocol is not specified.</p></details></li></ul><p id="2c382a29-ac44-4f91-a590-f9347703311b" class="">
+</p><ul id="d32e97d1-179e-4be1-8a3d-5ca361ae8cf3" class="toggle"><li><details open=""><summary>ENV</summary><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="da8c2a68-59c9-4f0e-8c23-783e98773ea7"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Environment replacement 环境变量替代路径</div></figure><p id="5cff07be-a562-4254-b0b8-c3654ee32bb5" class=""><code>ENV &lt;key&gt; &lt;value&gt;
+ENV &lt;key&gt;=&lt;value&gt; ...</code></p><p id="0b69929f-2180-4749-8fae-554920103519" class="">The <code>ENV</code> instruction sets the environment variable <code>&lt;key&gt;</code> to the value <code>&lt;value&gt;</code>. This value will be in the environment for all subsequent instructions in the build stage and can be <a href="https://docs.docker.com/engine/reference/builder/#environment-replacement">replaced inline</a> in many as well.</p></details></li></ul><p id="f6ccb070-95ef-4696-924c-a1155e0e69a8" class="">
+</p><ul id="9aea5b25-05ea-4b55-b669-c6bd02263ca8" class="toggle"><li><details open=""><summary>COPY</summary><p id="c192cae8-e14c-4fad-8531-907863531cd4" class="">COPY has two forms:</p><ul id="98cd2b3b-a044-42bd-9c37-4b433bf1a255" class="bulleted-list"><li><code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code></li></ul><ul id="d18da04d-dd08-4203-b534-5c36fea95c3f" class="bulleted-list"><li><code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code> (this form is required for paths containing whitespace)</li></ul><blockquote id="5133e865-85d8-455d-a447-9e90c14885c1" class="">Note: The --chown feature is only supported on Dockerfiles used to build Linux containers, and will not work on Windows containers</blockquote><p id="8515faa0-2547-4084-bc59-350ffef4e18d" class="">
+</p><p id="194d10a3-112f-4608-858f-0324d7fa4167" class="">Each <code>&lt;src&gt;</code> may contain wildcards and matching will be done using Go’s <a href="http://golang.org/pkg/path/filepath#Match">filepath.Match</a> rules. For example:</p><p id="7e30fd94-44f5-42b3-b024-db8d7bec4c9b" class=""><code>COPY hom* /mydir/ # adds all files starting with &quot;hom&quot;
+COPY hom?.txt /mydir/ # ? is replaced with any single character, e.g., &quot;home.txt&quot;</code></p><p id="467568a4-a551-41d2-a580-2be1173fe9d5" class="">The <code>&lt;dest&gt;</code> is an absolute path, or a path relative to <code>WORKDIR</code>, into which the source will be copied inside the destination container.</p><p id="e6d61e91-4a58-4cca-9198-180f3aa08b6d" class=""><code>COPY test relativeDir/ # adds &quot;test&quot; to `WORKDIR`/relativeDir/
+COPY test /absoluteDir/ # adds &quot;test&quot; to /absoluteDir/</code></p><p id="b5a537f9-344e-4795-b667-bb33134e78cc" class="">
+</p><p id="03565bce-1c6f-4aaf-b6ec-608ce3d2310e" class=""><code>COPY</code> obeys the following rules:</p><ul id="153757ad-3b9e-4703-948d-a70f82a3382a" class="bulleted-list"><li>The <code>&lt;src&gt;</code> path must be inside the <em>context</em> of the build; you cannot <code>COPY ../something /something</code>, because the first step of a <code>docker build</code> is to send the context directory (and subdirectories) to the docker daemon.</li></ul><ul id="45aa7584-85f6-4e59-9323-bc4698938636" class="bulleted-list"><li>If <code>&lt;src&gt;</code> is a directory, the entire contents of the directory are copied, including filesystem metadata.</li></ul><blockquote id="6bd65188-80e1-4403-80e7-5ced07170bdf" class="">Note: The directory itself is not copied, just its contents.</blockquote></details></li></ul><p id="9d4b01ed-172c-499e-86ad-d7c5bed01c7e" class="">
+</p><ul id="7aa198e5-e7d6-4f49-bcb8-d77451913486" class="toggle"><li><details open=""><summary>WORKDIR</summary><p id="aeaf22ca-134f-41d9-bacf-476d76a5e39d" class=""><code>WORKDIR /path/to/workdir</code></p><p id="925378bf-56f0-4c34-8fec-ad355f803b1c" class="">The <code>WORKDIR</code> instruction sets the working directory for any <code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code>, <code>COPY</code> and <code>ADD</code> instructions that follow it in the <code>Dockerfile</code>. If the <code>WORKDIR</code> doesn’t exist, it will be created even if it’s not used in any subsequent <code>Dockerfile</code> instruction.</p><p id="f1a8e66f-f67f-435a-9feb-c438058b30f0" class="">The <code>WORKDIR</code> instruction can be used multiple times in a <code>Dockerfile</code>. If a relative path is provided, it will be relative to the path of the previous <code>WORKDIR</code> instruction. For example:</p><pre id="f30d592d-9c1a-4d19-8c60-b045aeb9a1c7" class="code code-wrap"><code>WORKDIR /a
+WORKDIR b
+WORKDIR c
+RUN pwd</code></pre><p id="749aac76-3e55-48ca-8802-543ba5994f4b" class="">The output of the final <code>pwd</code> command in this <code>Dockerfile</code> would be <code>/a/b/c</code>.</p><p id="c4b31f67-224d-49b3-8953-0397d6321a24" class="">The <code>WORKDIR</code> instruction can resolve environment variables previously set using <code>ENV</code>. You can only use environment variables explicitly set in the <code>Dockerfile</code>. For example:</p><pre id="58d54853-ee13-41ee-8cd0-cd0a2d03ea3a" class="code code-wrap"><code>ENV DIRPATH /path
+WORKDIR $DIRPATH/$DIRNAME
+RUN pwd</code></pre><p id="84682ab1-8866-4526-a00d-aecc64574bd8" class="">The output of the final <code>pwd</code> command in this <code>Dockerfile</code> would be <code>/path/$DIRNAME</code></p><p id="92ad3727-805f-4e27-a343-baa26146d297" class="">
+</p><p id="70b7ef2c-99a4-4527-8cd6-871257588060" class="">
+</p><p id="8c0c4399-1fb2-48fc-a015-6fc6ee8ce87d" class="">
+</p></details></li></ul><pre id="5503a459-4992-476e-9540-61ad9d44bf6f" class="code code-wrap"><code># A Dockerfile must begin with a FROM instruction
+FROM 
+COPY
+</code></pre></details></li></ul><pre id="3a8af72c-f911-4420-b34c-2521dd117dd0" class="code code-wrap"><code>docker build -t rl_demo .
+docker run -dit rl_demo
+docker ps -all
+docker exec -it [container ID] /bin/bash</code></pre><p id="5f81b23b-c3e8-4e53-8f64-345567d88ebc" class="">
+</p><ul id="ef36f037-d5cc-4642-a98c-3a6183834eff" class="toggle"><li><details open=""><summary>非dockerfile创建容器</summary><ul id="5514dfd8-2abb-48f2-8118-57b674a062f9" class="bulleted-list"><li>获得image</li></ul><ul id="def9e73f-8b77-4b1c-9ce2-7775a5fa1c52" class="bulleted-list"><li>用image创建container<p id="9a08e136-5ad3-4faa-a982-9437a897caff" class="">重命名container，docker会给新建的容器默认名字，但是没有实际含义，为方便以后使用容器，重命名容器。</p><pre id="32e28c12-b7ee-4e23-a6f0-e3c8a04bab46" class="code code-wrap"><code>docker rename &lt;current Container name&gt; &lt;new container name&gt;</code></pre></li></ul><ul id="26999241-df5c-4381-9ce2-e8f7af0ff0fe" class="bulleted-list"><li>启动container</li></ul><pre id="e6e4cb29-8669-454b-9f1b-429813f14f36" class="code code-wrap"><code>docker image ls // list images
+docker ps -a  // list all running and stopped containers
+docker start &lt;container id&gt;  
+docker attach &lt;container id&gt; // attach local standard input, output 
+														 //	and error streams to a running container</code></pre></details></li></ul><p id="2e03fdf5-faa0-42d0-a4c5-68220e832dc0" class="">
+</p><ul id="b878ad8a-67c0-4345-ac3c-7324a80d943b" class="toggle"><li><details open=""><summary>宿主机与容器间的文件拷贝</summary><ul id="2e1c41f5-59c5-47a8-b6d9-0ff53b381e3e" class="bulleted-list"><li>宿主机 → 容器<p id="f4fd6df2-741a-42ad-a677-c09a4e12b998" class="">宿主机下，/opt/test/file.txt </p><p id="ae90afbb-c653-4943-b507-2dbdaec08f18" class="">容器名：mycontainer</p><p id="a2deaa7a-88ea-4ea0-9cde-3e3699f1688d" class="">目标路径：/target/test</p><pre id="552a45a5-d55d-4449-a3a3-273c69087c9b" class="code code-wrap"><code>docker cp /opt/test/file.txt mycontainer:/target/test</code></pre><p id="96804f9f-28a1-44d3-b96a-86e50c70ceb3" class="">
+</p></li></ul></details></li></ul></div></article></body></html>

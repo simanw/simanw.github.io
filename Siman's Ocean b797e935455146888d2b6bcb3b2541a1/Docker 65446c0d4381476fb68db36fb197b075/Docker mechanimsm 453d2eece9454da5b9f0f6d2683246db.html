@@ -1,0 +1,670 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Docker mechanimsm</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="453d2eec-e945-4da5-b9f0-f6d2683246db" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/met_vincent_van_gogh_cradle.jpg" style="object-position:center 80%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🥶</span></div><h1 class="page-title">Docker mechanimsm</h1></header><div class="page-body"><p id="30df53f6-05e9-4bbc-93ec-bed551e0bf4f" class="">容器的本质是一个进程</p><p id="5cd7ecd9-4986-4c34-8a5e-68cc1ab51ef4" class="">容器的启动进程就是容器里PID=1的进程</p><ul id="d2c011ca-1977-41c1-bb4c-21cf27284a79" class="bulleted-list"><li>一个容器不能跑两个应用, 因此常常用systemd或者supervisord来代替应用成为容器的启动进程</li></ul><p id="a1395554-3af4-40f6-a5d3-af8b6bc5d342" class="">
+</p><h3 id="f2ba7c5d-61f8-4a26-8893-e78f36bf6ff9" class="">容器的“隔离”与“限制”</h3><p id="5ee0100e-a92b-4525-a7a7-0ab63765e925" class="">相对于虚拟机来说，容器没有专门的cpu、内存等，没有虚拟的操作系统，只是通过namespace重命名的进程运行在物理机上，没有实质性的隔离，会发生容器内的应用越狱等情况。但可以通过cgroup来限制容器的cpu内存等的使用，现有问题是top，/proc下查看到的还是物理机的相关信息。</p><ul id="5b13eedf-e607-4306-9f2c-f28e45eb2231" class="toggle"><li><details open=""><summary>namespace</summary><p id="f4796501-5955-4537-b4a3-778e86e77ad7" class="">Linux 操作系统提供了PID Namespace，Mount、UTS、IPC、Network 和 User Namespace，用来对各种不同的进程上下文进行“障眼法”操作。比如，Mount Namespace，用于让被隔离进程只看到当前 Namespace 里的挂载点信息；Network Namespace，用于让被隔离进程看到当前 Namespace 里的网络设备和配置。</p><p id="fe97dd59-1ef6-4aa9-87cc-a17119172c46" class="">
+</p><p id="5e4a7c89-ce3a-428e-8f34-724b683969a0" class=""><strong>int pid = clone(main_function, stack_size, CLONE_NEWPID | SIGCHLD, NULL);</strong></p><p id="8b785911-26e7-466e-819e-85536198a91d" class="">Linux系统调用clone()创建一个进程(线程), <mark class="highlight-yellow">参数</mark><mark class="highlight-yellow"><strong>CLONE_NEWPID, </strong></mark><mark class="highlight-yellow">使得新建进程只能“看到一个全新的空间”, pid从1开始. 但该进程在宿主机里的进程仍为真实数值, 比如100</mark></p><p id="dfe7361e-cda9-4501-bb53-4ac28019b02c" class="">
+</p><p id="08e39eb2-f8f7-4d92-b1d2-fcf7de96b547" class="">在理解了 Namespace 的工作方式之后，你就会明白，跟真实存在的虚拟机不同，在使用 Docker 的时候，并没有一个真正的“Docker 容器”运行在宿主机里面。Docker 项目帮助用户启动的，还是原来的应用进程，只不过在创建这些进程时，Docker 为它们加上了各种各样的 Namespace 参数。这时，这些进程就会觉得自己是各自 PID Namespace 里的第 1 号进程，只能看到各自 Mount Namespace 里挂载的目录和文件，只能访问到各自 Network Namespace 里的网络设备，就仿佛运行在一个个“容器”里面，与世隔绝。</p><p id="42a4e53b-366a-4452-a232-218084e70349" class="">
+</p><figure class="block-color-yellow callout" style="white-space:pre-wrap;display:flex" id="bd4db816-f335-4282-8575-7924302a42da"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">缺点: 隔离不彻底</div></figure><ul id="ba8f4235-032a-4158-80c2-1295c22fc393" class="bulleted-list"><li>既然容器只是运行在宿主机上的一种特殊的进程，那么多个容器之间使用的就还是同一个宿主机的操作系统内核。<mark class="highlight-yellow">共享宿主机内核</mark></li></ul><ul id="baa8b752-6b7d-45d8-b733-57a395362bf7" class="bulleted-list"><li>很多资源和对象无法被namespace化, 比如时间, 如果容器中的程序使用 settimeofday(2) 系统调用修改了时间，整个宿主机的时间都会被随之修改，这显然不符合用户的预期。</li></ul><p id="58f69e02-5d18-41ba-8543-5c374b5e0c51" class="">
+</p></details></li></ul><ul id="b4494bc5-c4f4-48ff-82e9-db2150825797" class="toggle"><li><details open=""><summary>cgroups: </summary><p id="4c620010-a4fd-4722-844a-0d4e339728dc" class="">Linux Cgroups 是 Linux 内核中用来设置一个进程组能够使用的资源上限，包括 CPU、内存、磁盘、网络带宽等等。</p><p id="4beaedf2-5791-4718-a4cf-9e2cdd6c262b" class="">
+</p><p id="7efa0339-382a-422d-8d14-419f015a7f59" class="">在 /sys/fs/cgroup 下面有很多诸如 cpuset、cpu、 memory 这样的子目录，也叫子系统。这些都是这台机器当前可以被 Cgroups 进行限制的资源种类</p><pre id="d71859d7-c568-4bc4-99d1-dc1f242e6b3a" class="code"><code>$ mount -t cgroup 
+cpuset on /sys/fs/cgroup/cpuset type cgroup (rw,nosuid,nodev,noexec,relatime,cpuset)
+cpu on /sys/fs/cgroup/cpu type cgroup (rw,nosuid,nodev,noexec,relatime,cpu)
+cpuacct on /sys/fs/cgroup/cpuacct type cgroup (rw,nosuid,nodev,noexec,relatime,cpuacct)
+blkio on /sys/fs/cgroup/blkio type cgroup (rw,nosuid,nodev,noexec,relatime,blkio)
+memory on /sys/fs/cgroup/memory type cgroup (rw,nosuid,nodev,noexec,relatime,memory)
+...</code></pre><p id="c437a5bc-fcbd-4849-88ce-9ef493b38e04" class="">
+</p><p id="c4f7d757-78e2-43b9-a6ee-f03539f6a9b0" class="">在cpu子系统下创建目录container, 这个目录就称为一个“控制组”</p><p id="4e7e3d26-bc59-4bb6-89f9-09415f55e785" class="">把被限制的进程的 PID 写入 container 组里的 tasks 文件，限制就会对该进程生效了</p><pre id="572389dd-708a-4c70-8f4a-78b5d1777783" class="code"><code>root@ubuntu:/sys/fs/cgroup/cpu$ mkdir container
+root@ubuntu:/sys/fs/cgroup/cpu$ ls container/
+cgroup.clone_children cpu.cfs_period_us cpu.rt_period_us  cpu.shares notify_on_release
+cgroup.procs      cpu.cfs_quota_us  cpu.rt_runtime_us cpu.stat  tasks</code></pre><p id="75afee8d-a6be-4638-bb53-cff2703afe33" class="">
+</p><p id="0c5bbc76-346c-4d2d-8ca8-cc36ecef0479" class="">docker run一个容器的时候做了哪些事情?<div class="indented"><ol id="3cbafa56-2a58-46aa-9d7f-e30c06e0102e" class="numbered-list" start="1"><li>在每个子系统下为每一个容器创建一个控制组, 在启动容器进程之后，把这个进程的 PID 填写到对应控制组的 tasks 文件中就可以了</li></ol><p id="d56f51a8-9b0e-4761-b818-4eeff097f58f" class="">
+</p></div></p><p id="f89e3d99-fd37-46d4-94ce-22e8310c9bf9" class="">issue:</p><ol id="e40ce5b4-8ac7-4cf8-bd2e-c9e5b2b590ee" class="numbered-list" start="1"><li>在容器里使用top命令, 能看到宿主机的cpu和内存数据, 而不是当前容器的数据<p id="97f5a58d-5eae-40e1-aa0c-0df7a00f9d7b" class="">Linux 下的 /proc 目录存储的是记录当前内核运行状态的一系列特殊文件，用户可以通过访问这些文件，查看系统以及当前正在运行的进程的信息，比如 CPU 使用情况、内存占用率等，这些文件也是 top 指令查看系统信息的主要数据来源。/proc 文件系统并不知道用户通过 Cgroups 给这个容器做了什么样的资源限制，即：/proc 文件系统不了解 Cgroups 限制的存在。</p><p id="d312ed18-5406-4961-a6bc-e39dc8a84174" class=""><mark class="highlight-yellow">solution:  </mark></p><p id="6f8e8136-825e-442d-bf7d-ff01670185f6" class="">top 是从 /prof/stats 目录下获取数据，所以道理上来讲，容器不挂载宿主机的该目录就可以了。lxcfs就是来实现这个功能的，做法是把宿主机的 /var/lib/lxcfs/proc/memoinfo 文件挂载到Docker容器的/proc/meminfo位置后。容器中进程读取相应文件内容时，LXCFS的FUSE实现会从容器对应的Cgroup中读取正确的内存限制。从而使得应用获得正确的资源约束设定。kubernetes环境下，也能用，以ds 方式运行 lxcfs ，自动给容器注入争取的 proc 信息。</p><p id="12a7289d-1c38-4bd4-ba28-02a4e910bbcb" class="">更具体的见</p><figure id="dffdb260-c93a-4783-bd9f-dff90df8d705"><a href="https://www.jianshu.com/p/2db635b9836c" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">lxcfs容器隔离技术实现原理分析之loadavg、cpuonline</div><div class="bookmark-description">lxcfs是什么 我们知道runc没有做到完全隔离/proc、/sys路径下的文件，所以容器内通过top、free等命令看到的数据都是物理机上的。对于习惯了虚机，物理机的同学...</div></div><div class="bookmark-href"><img src="data:image/vnd.microsoft.icon;base64,AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAABILAAASCwAAAAAAAAAAAAAAAAAASWTtHEhh5qZIYObmSGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDm5khh5qZJZO0cAAAAAElk7RxIYeXtSGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hh5e1JZO0cSGHmpkhg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hh5qZIYObmSGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDm5khg5f9IYOX/SGDl/0hg5f9IYOX/ipnu/5qn8P9qfen/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/TWTl/5qn8P+grfH/nKnx/3iJ6/9JYeX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f/Cyvb///////T2/f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f99juz//////////////////////8vS9/9LY+X/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/8LK9v///////f3+/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/2l96f+hrfH/o6/x/9HX+P///////////5Gg7/9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/wsr2///////9/f7/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/Vmzn////////////usP1/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f/Cyvb///////39/v9IYOX/SGDl/46d7v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7/8fP9/8LK9v9keOn/SGDl/0hg5f9JYeX///////////+9xvX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/8LK9v///////f3+/0hg5f9IYOX/j53v////////////ydD3/6ax8v+msfL/prHy/6248//t8Pz//////+/x/P9dcuj/SGDl/0lh5f///////////73G9f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/wsr2///////9/f7/SGDl/0hg5f+Pne////////////+RoO//SGDl/0hg5f9IYOX/SGDl/5Kg7////////////56q8f9IYOX/SWHl////////////vcb1/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f/Cyvb///////39/v9IYOX/SGDl/4+d7////////////5Oh7/9JYeX/SWHl/0lh5f9JYeX/h5fu////////////ucL1/0hg5f9JYeX///////////+9xvX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/8LK9v///////f3+/0hg5f9IYOX/j53v//////////////////////////////////////////////////////+4wfX/SGDl/0lh5f///////////73G9f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/wsr2///////9/f7/SGDl/0hg5f+Pne/////////////g5Pr/xs32/8bN9v/Gzfb/xs32/9jd+f///////////7fB9P9IYOX/SWHl////////////vcb1/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f/Cyvb///////39/v9IYOX/SGDl/4+d7////////////5uo8P9IYOX/SGDl/0hg5f9IYOX/gZHt////////////t8D0/0hg5f9JYeX///////////+9xvX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/8LK9v///////f3+/0hg5f9IYOX/j53v////////////m6jw/0hg5f9IYOX/SGDl/0hg5f+Bke3///////////+2wPT/SGDl/0lh5f///////////73G9f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/wsr2///////9/f7/SGDl/0hg5f+Pne///////////////////////////////////////////////////////7W/9P9IYOX/SWHl////////////vcb1/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f/Cyvb///////39/v9IYOX/SGDl/4WV7f/l6Pv/5ej7/+Xo+//l6Pv/5ej7/+Xo+//l6Pv/5ej7/+Xo+//l6Pv/pbHy/0hg5f9JYeX///////////+9xvX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/2h86f96i+z/eozs/7S+9P/K0ff/p7Ly/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0lh5f///////////73G9f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9gdej///////////+8xfX/bYDq/5il8P+YpfD/mKXw/5il8P+YpfD/mKXw/5il8P+YpfD/mKXw/5il8P+YpfD/mafw////////////vcb1/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/7zF9f//////9fb9/1906P/P1fj///////////////////////////////////////////////////////////////////////////+9xvX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/oK3x/1Rq5v9/kOz///////z9/v99juz/SGDl/6u28//AyPb/wMj2/8DI9v/K0ff/4eX6/8DI9v/AyPb/wMj2/8DI9v/AyPb/wMj2/8DI9v/AyPb/wMj2/5Wj8P9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f/8/f7/9fb9/6248/9Uaub/TWTl/0hg5f9/kOz/6Ov7/+Hl+v9ccuf/SGDl/3WH6///////vMX1/1Fo5v9IYOX/SGDl/0hg5f/L0vf/9/j9/8TL9v9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/6Ov8f/6+/7//////87U+P9PZub/SGDl/7rD9f//////9fb9/05l5f9IYOX/YXXo/+7w/P//////3eL6/1lu5/9IYOX/TWTl//f4/f//////rbjz/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/22A6v/09v3//////9fc+f+Zp/D/9vf9///////Y3fn/j53v/5Si7/+Wo/D/Znrp/93i+v//////3uL6/5mn8P+yvPT///////////+yvPT/mafw/5mn8P96i+z/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/32O7P////////////////////////////////////////////////+cqfH/X3To//r7/v////////////////////////////////////////////Hz/f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/8zT9////////////2l86f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/usP1////////////iJju/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/jJvu////////////kZ/v/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9/kOz///////////+eqvH/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5uZIYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9KYeX/SmHl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYObmSGHmpkhg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hh5qZJZO0cSGHl7Uhg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYeXtSWTtHAAAAABJZO0cSGHmpkhg5uZIYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYOX/SGDl/0hg5f9IYObmSGHmpklk7RwAAAAAgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAE=" class="icon bookmark-icon"/>https://www.jianshu.com/p/2db635b9836c</div></div><img src="https://upload-images.jianshu.io/upload_images/14774548-417f332fcb4cee01.png" class="bookmark-image"/></a></figure></li></ol></details></li></ul><p id="bebbd8e3-cd1e-49d6-8d8c-4f74fecb1389" class="">
+</p><h3 id="9416ac48-35cc-4b83-a8bf-3c973c54df52" class="">镜像是什么? (image是docker崛起的关键创新)</h3><ul id="9d494dd9-0cdc-4681-b5ba-f668067dba1f" class="toggle"><li><details open=""><summary>这个挂载在容器根目录上、用来为容器进程提供隔离后执行环境的文件系统，就是所谓的“容器镜像”.  镜像即rootfs, 一个操作系统所包含的文件、配置和目录, 但是不包括系统内核. </summary><p id="d55852e3-a30e-44d0-9f99-65b4e9cfc73e" class="">
+</p><p id="51dd1064-dac5-44bb-a079-cc3da2700428" class="">新创建的容器会直接继承宿主机的各个挂载点</p><figure class="block-color-yellow callout" style="white-space:pre-wrap;display:flex" id="a5844324-c824-4795-9176-3f711cfe49d5"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">即便开启了mount namespace, 容器进程看到的文件系统仍然与宿主机完全一样</div></figure><p id="22290367-6235-4dd5-9a8a-bd65032a6be6" class="">Mount Namespace 跟其他 Namespace 的使用略有不同的地方：它对容器进程视图的改变，一定是伴随着挂载操作（mount）才能生效</p><p id="d2f02036-d9f9-42fa-bc10-db3f46f8436c" class="">
+</p><p id="0b27de7e-e94b-453d-a7f8-1a9b6e83a80f" class=""><mark class="highlight-yellow">在容器进程启动之前, 使用chroot命令, 把容器进程的根目录修改为某一目录(也就是重新挂载容器进程的整个根目录)</mark></p><p id="b7912b0e-773d-44a6-a5fe-65c157f1b77e" class="">
+</p><p id="2eb900f1-ebad-475c-a59a-1cf0742eaa63" class="">将整个ubuntu的文件系统拷贝到$HOME/test目录, </p><p id="cb5a4d4b-9856-4bf9-9515-7a80ccd44f37" class="">执行chroot, 告诉操作系统, 我们将使用$HOME/test目录作为/bin/bash进程的根目录</p><pre id="1b8ea095-afe5-44a6-a9f6-3101b6d6c76a" class="code"><code>chroot $HOME/test /bin/bash</code></pre><p id="20a0aef1-4e9b-4024-87f6-616ae586fec2" class="">
+</p><p id="9ce6ae78-cb28-49c1-b98f-1f1b5b01682f" class="block-color-yellow">这个挂载在容器根目录上、用来为容器进程提供隔离后执行环境的文件系统，就是所谓的“容器镜像”.  镜像即rootfs, 一个操作系统所包含的文件、配置和目录, 但是不包括系统内核. </p><ul id="1e2b3932-8d23-4571-b469-72ac9a2480cc" class="bulleted-list"><li>一台机器上的所有容器共享宿主机操作系统的内核, 所以少数依赖内核的应用是不能跨平台的(多数应用没有内核依赖)</li></ul><figure class="block-color-yellow callout" style="white-space:pre-wrap;display:flex" id="28eb03e0-95c1-4c81-a0a4-b0d466ef032f"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">由于 rootfs 里打包的不只是应用，而是整个操作系统的文件和目录，也就意味着，应用以及它运行所需要的所有依赖，都被封装在了一起。</div></figure><p id="cda4b130-dbd0-4495-b266-893c765b407f" class="">
+</p><hr id="1b7fb497-382f-4ef9-ba8e-11f99b87c8c4"/><p id="9837a0a9-ad6b-4e84-9fd8-2385b891f7e7" class="">
+</p><h3 id="0258e313-53bc-4fb9-a933-d2dc826234e2" class="">Docker创新了增量分层的rootfs</h3><blockquote id="017e693b-f67a-4b4a-9457-78b7b6f96e93" class="">Docker 在镜像的设计中，引入了层（layer）的概念。也就是说，用户制作镜像的每一步操作，都会生成一个层，也就是一个增量 rootfs。</blockquote><p id="dcbf2172-6c8e-4bc7-9707-1ac26a8df07b" class="">Union File System, 也叫 UnionFS，最主要的功能是将多个不同位置的目录联合挂载（union mount）到同一个目录下。</p><p id="b1352eb7-b769-4298-9a1c-5b744dda3035" class="">
+</p><p id="b7b504fb-4cfb-4461-8af6-17c892bb5ad3" class="">比如</p><pre id="24df0f72-6203-48b4-aff5-f8829c46ad19" class="code"><code>$ docker image inspect ubuntu:latest
+...
+     &quot;RootFS&quot;: {
+      &quot;Type&quot;: &quot;layers&quot;,
+      &quot;Layers&quot;: [
+        &quot;sha256:f49017d4d5ce9c0f544c...&quot;,
+        &quot;sha256:8f2b771487e9d6354080...&quot;,
+        &quot;sha256:ccd4d61916aaa2159429...&quot;,
+        &quot;sha256:c01d74f99de40e097c73...&quot;,
+        &quot;sha256:268a067217b5fe78e000...&quot;
+      ]
+    }</code></pre><p id="443f116f-2883-4476-89f5-b5a4a0547994" class="">这个ubuntu镜像由5个层组成, 即5个增量rootfs.</p><p id="227e7626-a045-4d2b-b7ca-05d779db191c" class="">每一层都是 Ubuntu 操作系统文件与目录的一部分；而在使用镜像时，Docker 会把这些增量联合挂载在一个统一的挂载点上</p><ul id="25a442a9-950e-47ba-b33a-7d781fe38156" class="toggle"><li><details open=""><summary>自己在虚拟机上的实验</summary><p id="9a92b97f-818c-4484-a8e3-e216e8927545" class="">目录结构与2018年的教程相比已经有很大变化了</p><p id="aedf372f-3faf-4db6-94fe-100f8cff22e9" class="">/var/lib/docker/containers 记录所有容器</p><figure id="3ba02a86-12ac-4ddc-a9d7-893d65f12f89" class="image"><a href="Docker%20mechanimsm%20453d2eece9454da5b9f0f6d2683246db/Screen_Shot_2020-07-15_at_11.36.51_PM.png"><img style="width:1854px" src="Docker%20mechanimsm%20453d2eece9454da5b9f0f6d2683246db/Screen_Shot_2020-07-15_at_11.36.51_PM.png"/></a></figure><p id="3fea1035-8dc0-4bbf-9e00-49854533a34f" class="">/var/lib/docker/overlay2 记录所有layers</p><p id="cc701d7d-c5d4-4c7c-98da-7615615a4ac1" class="">var/lib/docker/overlay2/6ea.........b087/diff 下面是ubuntu文件系统的run文件</p><p id="6d93cc38-9d9a-4035-9ffe-8bf488fdc429" class="">
+</p><p id="02492627-71eb-42ea-bd9b-3a18c7e24dcb" class="">var/lib/docker/overlay2/</p><p id="207582f6-9c09-43c1-b94b-85de71f987a1" class="">
+</p><figure id="65699dba-97c0-467e-949f-d42dcf275158" class="image"><a href="Docker%20mechanimsm%20453d2eece9454da5b9f0f6d2683246db/Screen_Shot_2020-07-15_at_11.48.04_PM.png"><img style="width:1844px" src="Docker%20mechanimsm%20453d2eece9454da5b9f0f6d2683246db/Screen_Shot_2020-07-15_at_11.48.04_PM.png"/></a></figure></details></li></ul><p id="624fe847-9db2-4af0-96c1-0ee6cc418886" class="">
+</p><figure id="d29af57c-56ea-4231-8368-c6d553d05e3d" class="image"><a href="Docker%20mechanimsm%20453d2eece9454da5b9f0f6d2683246db/Screen_Shot_2020-07-13_at_5.52.45_PM.png"><img style="width:1136px" src="Docker%20mechanimsm%20453d2eece9454da5b9f0f6d2683246db/Screen_Shot_2020-07-13_at_5.52.45_PM.png"/></a></figure><p id="f23cd69b-7f0d-4c44-a60b-2b41246ee240" class="">
+</p><ul id="0036b13b-36ff-4b06-9220-e13dd60999ef" class="bulleted-list"><li>只读层<p id="50346c00-82a5-46f0-ba76-49cb0e0016f0" class="">它们的挂载方式都是只读的（ro+wh，即 readonly+whiteout)</p><p id="f567f07b-eb4b-4523-80f3-7e7cab9df64d" class="">whiteout文件将被“删除”的文件遮挡起来</p></li></ul><ul id="d14895ed-57e9-4e01-a2ff-8b9148daa823" class="bulleted-list"><li>可读写层<p id="e9bdab16-1fc0-45f6-8631-ca26c24580fe" class="">在没有写入文件之前, 这个目录是空的. 一旦在容器里做了写操作，你修改产生的内容就会以增量的方式出现在这个层中。</p><p id="20d025ac-40aa-488f-82f5-b2ec933d11da" class="">如果要删除只读层里一个名叫 foo 的文件，那么这个删除操作实际上是在可读写层创建了一个名叫.wh.foo 的文件。这样，当这两个层被联合挂载之后，foo 文件就会被.wh.foo 文件“遮挡”起来，“消失”了。这个功能，就是“ro+wh”的挂载方式，即只读 +whiteout 的含义</p></li></ul><ul id="40fdd44d-8463-445f-85bc-aca33458dc3c" class="bulleted-list"><li>init层<p id="adc3d727-2725-4780-ab33-a1d6d20278a1" class="">它是一个以“-init”结尾的层，夹在只读层和读写层之间。Init 层是 Docker 项目单独生成的一个内部层，专门用来存放 /etc/hosts、/etc/resolv.conf 等信息。</p><p id="6917edb2-c86e-400a-85f4-ff7060763ca6" class="">需要这样一层的原因是，这些文件本来属于只读的 Ubuntu 镜像的一部分，但是用户往往需要在启动容器时写入一些指定的值比如 hostname，所以就需要在可读写层对它们进行修改。可是，这些修改往往只对当前的容器有效，我们并不希望执行 docker commit 时，把这些信息连同可读写层一起提交掉。</p><p id="194b1e13-ba8d-4264-bff6-c11d8ac69b91" class="">所以，Docker 做法是，在修改了这些文件之后，以一个单独的层挂载了出来。而用户执行 docker commit 只会提交可读写层，所以是不包含这些内容的。</p></li></ul><p id="d910e7a1-dcc3-44bc-9458-a1deb8e65306" class="">
+</p><ol id="220cb8b6-733a-41a1-9eb2-1a25addafd76" class="numbered-list" start="1"><li>既然容器的 rootfs（比如，Ubuntu 镜像），是以只读方式挂载的，那么又如何在容器里修改 Ubuntu 镜像的内容呢？（提示：Copy-on-Write）<p id="040f09d6-4c13-4e84-9b7c-7122347f1f8e" class="">上面的读写层通常也称为容器层，下面的只读层称为镜像层，所有的增删查改操作都只会作用在容器层，相同的文件上层会覆盖掉下层。知道这一点，就不难理解镜像文件的修改，比如修改一个文件的时候，首先会从上到下查找有没有这个文件，找到，就复制到容器层中，修改，修改的结果就会作用到下层的文件，这种方式也被称为copy-on-write</p></li></ol><ol id="575dc778-f2fa-48f6-81a7-20354711f17e" class="numbered-list" start="2"><li>除了 AuFS，你知道 Docker 项目还支持哪些 UnionFS 实现吗？你能说出不同宿主机环境下推荐使用哪种实现吗？<p id="dbcc910c-c0df-4efa-8ffa-82f1f072626c" class="">Ubuntu: aufs, overlayfs</p><p id="4f67e824-1b26-4f1d-8d4f-9e8912c8aa3e" class="">centos: overlayfs, devicemapper</p><p id="cfb26923-9878-4aac-801e-14d92cb0cd8b" class="">solaris: vfs, zfs</p><p id="190495a4-a230-4abb-a058-391bba203b74" class="">SUSE: btrfs</p></li></ol></details></li></ul><p id="70d7f485-12fa-4826-878a-9e8cb94b136f" class="">
+</p></div></article></body></html>
